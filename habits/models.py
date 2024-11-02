@@ -1,6 +1,7 @@
-from django.core.exceptions import ValidationError
 from django.db import models
 from datetime import timedelta
+
+from django.utils import timezone
 
 from users.models import User
 
@@ -37,3 +38,34 @@ class Habit(models.Model):
     class Meta:
         verbose_name = "Привычка"
         verbose_name_plural = "Привычки"
+
+
+# создаем модель истории отправки напоминаний выполнить привычку
+class ReminderHistory(models.Model):
+    habit = models.ForeignKey(
+        Habit,
+        on_delete=models.CASCADE,
+        related_name='reminder_histories',
+        verbose_name='Привычка',
+        help_text='Привычка, к которой относится напоминание'
+    )
+    sent_at = models.DateTimeField(
+        default=timezone.now,
+        verbose_name='Время отправки',
+        help_text='Когда отправлено напоминание')
+    delivery_status = models.CharField(
+        max_length=20,
+        choices=[('sent', 'Отправлено'), ('failed', 'Не отправлено')],
+        verbose_name='Статус доставки',
+        help_text='Статус отправки напоминания'
+    )
+    error_message = models.TextField(
+        **NULLABLE, verbose_name='Сообщение об ошибке',
+        help_text='Сообщение об ошибке, если отправка не удалась')
+
+    def __str__(self):
+        return f"Напоминание о привычке  '{self.habit}' отправлено в {self.sent_at}"
+
+    class Meta:
+        verbose_name = 'История напоминаний'
+        verbose_name_plural = 'Истории напоминаний'
