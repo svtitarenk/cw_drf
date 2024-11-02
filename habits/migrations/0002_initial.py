@@ -18,6 +18,10 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='habit',
             name='user',
-            field=models.ForeignKey(help_text='Укажите владельца привычки', on_delete=django.db.models.deletion.CASCADE, related_name='habit_user', to=settings.AUTH_USER_MODEL, verbose_name='Владелец привычки'),
+            field=models.ForeignKey(
+                help_text='Укажите владельца привычки',
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='habit_user', to=settings.AUTH_USER_MODEL,
+                verbose_name='Владелец привычки'),
         ),
     ]

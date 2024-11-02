@@ -16,8 +16,9 @@ class HabitViewSet(viewsets.ModelViewSet):
     pagination_class = paginators.CustomPagination
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     filterset_fields = ('frequency', 'action',)
-    ordering_fields = ('frequency',)
-    search_fields = ('$action',)
+
+    # search_fields = ('action',)
+    # ordering_fields = ('frequency',)
 
     def list_public(self, request):
         public_habits = Habit.objects.filter(is_public=True)
@@ -32,4 +33,3 @@ class HabitViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)  # Автоматическое назначение создателя
-

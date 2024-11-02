@@ -1,18 +1,22 @@
 from rest_framework import serializers
 from rest_framework.fields import SerializerMethodField
 from habits.models import Habit
-from habits.validators import validate_reward_or_related_habit, validate_pleasant_habit_constraints, validate_duration, \
-    validate_related_habit_pleasant, validate_frequency
+from habits.validators import (validate_reward_or_related_habit,
+                               validate_pleasant_habit_constraints,
+                               validate_duration,
+                               validate_related_habit_pleasant,
+                               validate_frequency)
 
 
 class HabitSerializer(serializers.ModelSerializer):
     email = SerializerMethodField()
     related_habit_action = serializers.CharField(source="related_habit.action", read_only=True)
+    habit_user_chat_id = serializers.CharField(source="habit.habit_user.tg_chat_id", read_only=True)
 
     class Meta:
         model = Habit
         fields = [
-            'id', 'email', 'place', 'time', 'action', 'related_habit_action', 'is_pleasant',
+            'id', 'email', 'habit_user_chat_id', 'place', 'time', 'action', 'related_habit_action', 'is_pleasant',
             'related_habit', 'reward', 'frequency', 'estimated_time', 'is_public'
         ]
 
