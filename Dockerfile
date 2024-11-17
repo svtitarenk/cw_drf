@@ -13,4 +13,6 @@ COPY . .
 ENV PYTHONUNBUFFERED=1
 # запускаем команду в Unix, которая принимает тест "-с" и передаем команду на запуск сервера. Без миграций
 # CMD ["sh", "-c", "python", "manage.py", "runserver", "0.0.0.0:8000"]
-CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+
+# после создания docker-complose.yaml команду нужно исключить
+#CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
